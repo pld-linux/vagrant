@@ -1,52 +1,24 @@
-
-#
-# Missing deps in Fedora:
-#
-# rubygem-log4r >= 1.1.9 < 2.0.0
-#   Fix: Build new package, bz905240
-#
-# rubygem-childprocess >=0.3.1 < 0.4.0 (0.3.6 in rawhide)
-#   Fix: Grab 0.3.6 package from rawhide
-#
-# rubygem-json >= 1.5.1, < 1.6.0 (1.6.5 in f18, 1.9.1 in rawhide)
-#   Fix: Build rubygem-json15, roughly based on current package
-#
-# rubygem-net-ssh >= 2.2.2 < 2.3.0 (2.2.1 in rawhide)
-#   Fix: Build 2.2.2 package based on current package
-#
-
-%define	gem_name	vagrant
-%define	rubyabi		1.9.1
 Summary:	Provisioning and deployment of virtual instances
 Name:		vagrant
-Version:	1.0.6
+Version:	1.1.0
 Release:	0.1
 License:	MIT
 Group:		Applications/Emulators
 URL:		http://vagrantup.com/
-Source0:	http://rubygems.org/downloads/%{gem_name}-%{version}.gem
-# Source0-md5:	c84c240a9e62853336bd3f0f2532ad8a
-BuildRequires:	git-core
-BuildRequires:	ruby(abi) = %{rubyabi}
-#BuildRequires:	rubygem(contest) >= 0.1.2
-BuildRequires:	rubygem(minitest) >= 2.5.1
-BuildRequires:	rubygem(mocha)
-BuildRequires:	rubygem(rake)
-BuildRequires:	rubygem(rspec-core) >= 2.8.0
-BuildRequires:	rubygem(rspec-expectations) >= 2.8.0
-BuildRequires:	rubygem(rspec-mocks) >= 2.8.0
-BuildRequires:	rubygems-devel
-Requires:	ruby(abi) = %{rubyabi}
-Requires:	ruby(rubygems)
-Requires:	rubygem(archive-tar-minitar) = 0.5.2
-Requires:	rubygem(childprocess) >= 0.3.1
-Requires:	rubygem(erubis) >= 2.7.0
-Requires:	rubygem(i18n) >= 0.6.0
-Requires:	rubygem(log4r) >= 1.1.9
-Requires:	rubygem(net-scp) >= 1.0.4
-Requires:	rubygem(net-ssh) >= 2.2.2
-Requires:	rubygem-json15
-BuildArch:	noarch
+Source0:	http://files.vagrantup.com/packages/194948999371e9aee391d13845a0bdeb27e51ac0/%{name}_i686.rpm
+# Source0-md5:	a31bfeb3abc6f8029281c7d5ca9394bd
+Source1:	http://files.vagrantup.com/packages/194948999371e9aee391d13845a0bdeb27e51ac0/%{name}_x86_64.rpm
+# Source1-md5:	5023d5a38faed4ca6285f0b9aab7c595
+BuildRequires:	rpm-utils
+ExclusiveArch:	%{ix86} %{x8664}
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define		_appdir	%{_libdir}/%{name}
+
+%define		_enable_debug_packages		0
+%define		no_install_post_strip		1
+%define		no_install_post_check_so	1
+%define		no_install_post_chrpath		1
 
 %description
 Vagrant offers scripted provisioning and deployment of virtual
@@ -73,59 +45,27 @@ BuildArch:	noarch
 Ruby documentation for %{gem_name}
 
 %prep
-gem unpack %{SOURCE0}
-%setup -q -D -T -n %{gem_name}-%{version}
+%setup -qcT
+%ifarch %{ix86}
+SOURCE=%{S:0}
+%endif
+%ifarch %{x8664}
+SOURCE=%{S:1}
+%endif
 
-gem spec %{SOURCE0} -l --ruby > %{gem_name}.gemspec
+V=$(rpm -qp --nodigest --nosignature --qf '%{V}' $SOURCE)
+test "$V" = "%{version}"
 
-%build
-mkdir -p ./%{gem_dir}
+rpm2cpio $SOURCE | cpio -i -d
 
-# Create the gem as gem install only works on a gem file
-gem build %{gem_name}.gemspec
-
-export CONFIGURE_ARGS="--with-cflags='%{rpmcflags}'"
-# gem install compiles any C extensions and installs into a directory
-# We set that to be a local directory so that we can move it into the
-# buildroot in %%install
-gem install -V \
-		--local \
-		--install-dir ./%{gem_dir} \
-		--bindir ./%{_bindir} \
-		--force \
-		--rdoc \
-		%{SOURCE0}
+mv opt/vagrant/* .
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{gem_dir}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_appdir}}
 
-# Remove a few oddments
-rm .%{gem_instdir}/.gitignore
-rm .%{gem_instdir}/.yardopts
-
-# Just copy these out for putting in default fedora doc location later
-cp .%{gem_instdir}/LICENSE .
-cp .%{gem_instdir}/README.md .
-cp .%{gem_instdir}/CHANGELOG.md .
-
-# Programs/scripts
-install -d $RPM_BUILD_ROOT%{_bindir}
-mv -v ./bin/* $RPM_BUILD_ROOT%{_bindir}
-mv -v .%{gem_instdir}/bin/* $RPM_BUILD_ROOT%{_bindir}
-chmod +x .%{gem_instdir}/test/*/scripts/*.sh
-
-# Wrap up the rest
-cp -a ./%{gem_dir}/* $RPM_BUILD_ROOT%{gem_dir}/
-
-%if %{with tests}
-cd .%{gem_instdir}
-
-# Just a hack, rspec misses this .gitignore(!)
-touch $RPM_BUILD_ROOT%{gem_instdir}/.gitignore
-rspec $RPM_BUILD_ROOT%{gem_instdir}/%{gem_name}.gemspec
-rm $RPM_BUILD_ROOT%{gem_instdir}/.gitignore
-%endif
+cp -a bin embedded $RPM_BUILD_ROOT%{_appdir}
+ln -s %{_appdir}/bin/%{name} $RPM_BUILD_ROOT%{_bindir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -133,30 +73,12 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/vagrant
-%{gem_spec}
-%{gem_cache}
-%{gem_instdir}/lib
-%{gem_instdir}/test
-%{gem_instdir}/keys
-%{gem_instdir}/tasks
-%{gem_instdir}/contrib
-%{gem_instdir}/Gemfile
-%{gem_instdir}/Rakefile
-%{gem_instdir}/%{gem_name}.gemspec
-%config %{gem_instdir}/config
 
-# Put something in the default fedora documentation location
-%doc LICENSE
-%doc README.md
-%doc CHANGELOG.md
+%defattr(-,root,root,-)
+%{_appdir}
 
-# Ruby devs probably panic if these are not in place here as well
-%doc %{gem_instdir}/LICENSE
-%doc %{gem_instdir}/README.md
-%doc %{gem_instdir}/CHANGELOG.md
-
-%doc %{gem_instdir}/templates
-
+%if 0
 %files doc
 %defattr(644,root,root,755)
 %doc %{gem_docdir}
+%endif
