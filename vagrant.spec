@@ -9,8 +9,12 @@ Source0:	http://files.vagrantup.com/packages/194948999371e9aee391d13845a0bdeb27e
 # Source0-md5:	a31bfeb3abc6f8029281c7d5ca9394bd
 Source1:	http://files.vagrantup.com/packages/194948999371e9aee391d13845a0bdeb27e51ac0/%{name}_x86_64.rpm
 # Source1-md5:	5023d5a38faed4ca6285f0b9aab7c595
+BuildRequires:	pkgconfig
+BuildRequires:	rpm-pythonprov
 BuildRequires:	rpm-utils
+BuildRequires:	ruby
 BuildRequires:	sed >= 4.0
+BuildRequires:	which
 ExclusiveArch:	%{ix86} %{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
