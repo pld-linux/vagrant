@@ -1,7 +1,7 @@
 Summary:	Provisioning and deployment of virtual instances
 Name:		vagrant
 Version:	1.1.0
-Release:	0.1
+Release:	0.2
 License:	MIT
 Group:		Applications/Emulators
 URL:		http://vagrantup.com/
@@ -10,6 +10,7 @@ Source0:	http://files.vagrantup.com/packages/194948999371e9aee391d13845a0bdeb27e
 Source1:	http://files.vagrantup.com/packages/194948999371e9aee391d13845a0bdeb27e51ac0/%{name}_x86_64.rpm
 # Source1-md5:	5023d5a38faed4ca6285f0b9aab7c595
 BuildRequires:	rpm-utils
+BuildRequires:	sed >= 4.0
 ExclusiveArch:	%{ix86} %{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -59,6 +60,8 @@ test "$V" = "%{version}"
 rpm2cpio $SOURCE | cpio -i -d
 
 mv opt/vagrant/* .
+
+grep -rl /tmp/vagrant-temp/embedded/bin/ruby embedded/gems | xargs sed -i -e 's,/tmp/vagrant-temp/embedded/bin/ruby,%{_appdir}/embedded/bin/ruby,'
 
 %install
 rm -rf $RPM_BUILD_ROOT
