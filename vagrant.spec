@@ -1,14 +1,14 @@
 Summary:	Provisioning and deployment of virtual instances
 Name:		vagrant
-Version:	1.1.0
-Release:	0.2
+Version:	1.1.2
+Release:	0.3
 License:	MIT
 Group:		Applications/Emulators
 URL:		http://vagrantup.com/
-Source0:	http://files.vagrantup.com/packages/194948999371e9aee391d13845a0bdeb27e51ac0/%{name}_i686.rpm
-# Source0-md5:	a31bfeb3abc6f8029281c7d5ca9394bd
-Source1:	http://files.vagrantup.com/packages/194948999371e9aee391d13845a0bdeb27e51ac0/%{name}_x86_64.rpm
-# Source1-md5:	5023d5a38faed4ca6285f0b9aab7c595
+Source0:	http://files.vagrantup.com/packages/67bd4d30f7dbefa7c0abc643599f0244986c38c8/vagrant_i686.rpm?/%{name}-%{version}.i686.rpm
+# Source0-md5:	83093a71588f97a9eb69fa7fe07418b9
+Source1:	http://files.vagrantup.com/packages/67bd4d30f7dbefa7c0abc643599f0244986c38c8/vagrant_x86_64.rpm?/%{name}-%{version}.x86_64.rpm
+# Source1-md5:	3efa3ac73988c565e6b3236da6867557
 BuildRequires:	pkgconfig
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpm-utils
@@ -65,7 +65,7 @@ rpm2cpio $SOURCE | cpio -i -d
 
 mv opt/vagrant/* .
 
-grep -rl /tmp/vagrant-temp/embedded/bin/ruby embedded/gems | xargs sed -i -e 's,/tmp/vagrant-temp/embedded/bin/ruby,%{_appdir}/embedded/bin/ruby,'
+grep -rl /tmp/vagrant-temp embedded | xargs sed -i -e 's,/tmp/vagrant-temp,%{_appdir}/embedded,'
 
 %install
 rm -rf $RPM_BUILD_ROOT
