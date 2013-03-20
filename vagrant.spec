@@ -1,7 +1,7 @@
 Summary:	Provisioning and deployment of virtual instances
 Name:		vagrant
 Version:	1.1.2
-Release:	0.3
+Release:	0.4
 License:	MIT
 Group:		Applications/Emulators
 URL:		http://vagrantup.com/
@@ -65,7 +65,7 @@ rpm2cpio $SOURCE | cpio -i -d
 
 mv opt/vagrant/* .
 
-grep -rl /tmp/vagrant-temp embedded | xargs sed -i -e 's,/tmp/vagrant-temp,%{_appdir}/embedded,'
+grep -rl /tmp/vagrant-temp embedded | xargs sed -i -e 's,/tmp/vagrant-temp,%{_appdir},'
 
 %install
 rm -rf $RPM_BUILD_ROOT
