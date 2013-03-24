@@ -7,7 +7,7 @@
 Summary:	Provisioning and deployment of virtual instances
 Name:		vagrant
 Version:	1.1.2
-Release:	0.8
+Release:	0.9
 License:	MIT
 Group:		Applications/Emulators
 URL:		http://vagrantup.com/
@@ -16,6 +16,7 @@ Source0:	http://files.vagrantup.com/packages/67bd4d30f7dbefa7c0abc643599f0244986
 Source1:	http://files.vagrantup.com/packages/67bd4d30f7dbefa7c0abc643599f0244986c38c8/vagrant_x86_64.rpm?/%{name}-%{version}.x86_64.rpm
 # Source1-md5:	3efa3ac73988c565e6b3236da6867557
 BuildRequires:	bash
+BuildRequires:	file
 BuildRequires:	pkgconfig
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpm-utils
@@ -101,7 +102,31 @@ rpm2cpio $SOURCE | cpio -i -d
 
 mv opt/vagrant/* .
 
-grep -rl /tmp/vagrant-temp embedded | xargs sed -i -e 's,/tmp/vagrant-temp,%{_appdir},'
+%build
+# update RPATH, not to contain insecure /tmp/vagrant-temp/embedded (insecure,
+# because /tmp is world writable dir) for the rest, just substitute with sed
+# (so shebangs would be correct)
+grep -r '/tmp/vagrant-temp/embedded' . -l | xargs -r file -i | while read path mime; do
+	path=${path%:}
+	case "$mime" in
+	text/*)
+		sed -i -e 's,/tmp/vagrant-temp/embedded,%{_appdir}/embedded,' "$path"
+	;;
+	application/x-executable*|application/x-sharedlib*)
+		rpath=$(chrpath -l $path) || continue
+		rpath=${rpath#$path: RPATH=}
+		[ "$rpath" ] || continue
+
+		case "$rpath" in
+		'${ORIGIN}/../lib:/tmp/vagrant-temp/embedded/lib' | \
+		'/tmp/vagrant-temp/embedded/lib:${ORIGIN}/../lib')
+			rpath=%{_appdir}/embedded/lib
+			chrpath -r "$rpath" $path
+		;;
+		esac
+	;;
+	esac
+done
 
 %install
 rm -rf $RPM_BUILD_ROOT
