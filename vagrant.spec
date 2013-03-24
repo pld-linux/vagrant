@@ -7,7 +7,7 @@
 Summary:	Provisioning and deployment of virtual instances
 Name:		vagrant
 Version:	1.1.2
-Release:	0.9
+Release:	0.10
 License:	MIT
 Group:		Applications/Emulators
 URL:		http://vagrantup.com/
@@ -31,10 +31,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		vg_home	/home/vagrant
 %define		vg_root	/vagrant
 
-%define		_enable_debug_packages		0
-%define		no_install_post_strip		1
 %define		no_install_post_check_so	1
-%define		no_install_post_chrpath		1
 
 %description
 Vagrant offers scripted provisioning and deployment of virtual
