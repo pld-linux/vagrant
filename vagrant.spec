@@ -7,7 +7,7 @@
 Summary:	Provisioning and deployment of virtual instances
 Name:		vagrant
 Version:	1.1.2
-Release:	0.13
+Release:	0.15
 License:	MIT
 Group:		Applications/Emulators
 URL:		http://vagrantup.com/
@@ -47,6 +47,18 @@ too much. A long term goal is moving all development into virtualized
 environments by making it easier to do so than not to. Additionally,
 work is ongoing to have Vagrant run identically on every major
 consumer OS platform (Linux, Mac OS X, and Windows).
+
+%package -n bash-completion-%{name}
+Summary:	bash-completion for %{name}
+Group:		Applications/Shells
+Requires:	%{name}
+Requires:	bash-completion
+%if "%{_rpmversion}" >= "5"
+BuildArch:	noarch
+%endif
+
+%description -n bash-completion-%{name}
+bash-completion for %{name}.
 
 %package guest
 Summary:	Vagrant guest
@@ -145,6 +157,9 @@ cp -a bin embedded $RPM_BUILD_ROOT%{_appdir}
 ln -s %{_appdir}/bin/%{name} $RPM_BUILD_ROOT%{_bindir}
 %endif
 
+install -d $RPM_BUILD_ROOT/etc/bash_completion.d
+mv $RPM_BUILD_ROOT{%{_appdir}/embedded/gems/gems/vagrant-%{version}/contrib/bash/completion.sh,/etc/bash_completion.d/%{name}.sh}
+
 # guest
 install -d $RPM_BUILD_ROOT{%{vg_root},%{vg_home}/.ssh}
 cp -a /etc/skel/.bash*  $RPM_BUILD_ROOT%{vg_home}
@@ -171,6 +186,10 @@ fi
 %defattr(-,root,root,-)
 %{_appdir}
 %endif
+
+%files -n bash-completion-%{name}
+%defattr(644,root,root,755)
+/etc/bash_completion.d/*
 
 %files guest
 %defattr(644,root,root,755)
