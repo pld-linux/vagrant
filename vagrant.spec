@@ -7,7 +7,7 @@
 Summary:	Provisioning and deployment of virtual instances
 Name:		vagrant
 Version:	1.1.2
-Release:	0.10
+Release:	0.12
 License:	MIT
 Group:		Applications/Emulators
 URL:		http://vagrantup.com/
@@ -15,6 +15,8 @@ Source0:	http://files.vagrantup.com/packages/67bd4d30f7dbefa7c0abc643599f0244986
 # Source0-md5:	83093a71588f97a9eb69fa7fe07418b9
 Source1:	http://files.vagrantup.com/packages/67bd4d30f7dbefa7c0abc643599f0244986c38c8/vagrant_x86_64.rpm?/%{name}-%{version}.x86_64.rpm
 # Source1-md5:	3efa3ac73988c565e6b3236da6867557
+Patch0:		https://github.com/glensc/vagrant/commit/bd8a24e945a26dbae418680d570d33dced910088.patch
+# Patch0-md5:	15aeb8e5fe95457bc0040035c3801541
 BuildRequires:	bash
 BuildRequires:	file
 BuildRequires:	pkgconfig
@@ -54,6 +56,7 @@ Requires(pre):	/bin/id
 Requires(pre):	/usr/bin/getgid
 Requires(pre):	/usr/sbin/groupadd
 Requires(pre):	/usr/sbin/useradd
+Requires:	/etc/pld-release
 Requires:	openssh-server
 Provides:	group(vagrant)
 Provides:	user(vagrant)
@@ -98,6 +101,8 @@ test "$V" = "%{version}"
 rpm2cpio $SOURCE | cpio -i -d
 
 mv opt/vagrant/* .
+cd embedded/gems/gems/vagrant-%{version}
+%patch0 -p1
 
 %build
 # update RPATH, not to contain insecure /tmp/vagrant-temp/embedded (insecure,
