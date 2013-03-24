@@ -7,7 +7,7 @@
 Summary:	Provisioning and deployment of virtual instances
 Name:		vagrant
 Version:	1.1.2
-Release:	0.12
+Release:	0.13
 License:	MIT
 Group:		Applications/Emulators
 URL:		http://vagrantup.com/
@@ -101,6 +101,13 @@ test "$V" = "%{version}"
 rpm2cpio $SOURCE | cpio -i -d
 
 mv opt/vagrant/* .
+
+# causes chrpath on th-i686  to fail
+rm embedded/rgloader/rgloader*.freebsd*.so
+%ifarch %{ix86}
+rm embedded/rgloader/rgloader*.x86_64.so
+%endif
+
 cd embedded/gems/gems/vagrant-%{version}
 %patch0 -p1
 
