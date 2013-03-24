@@ -1,3 +1,5 @@
+# NOTE:
+# - release notes: https://github.com/mitchellh/vagrant/blob/master/CHANGELOG.md
 #
 # Conditional build:
 %bcond_without	vagrant	# build vagrant package
@@ -5,7 +7,7 @@
 Summary:	Provisioning and deployment of virtual instances
 Name:		vagrant
 Version:	1.1.2
-Release:	0.6
+Release:	0.8
 License:	MIT
 Group:		Applications/Emulators
 URL:		http://vagrantup.com/
@@ -26,6 +28,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_appdir	%{_libdir}/%{name}
 
 %define		vg_home	/home/vagrant
+%define		vg_root	/vagrant
 
 %define		_enable_debug_packages		0
 %define		no_install_post_strip		1
@@ -109,7 +112,7 @@ ln -s %{_appdir}/bin/%{name} $RPM_BUILD_ROOT%{_bindir}
 %endif
 
 # guest
-install -d $RPM_BUILD_ROOT%{vg_home}/.ssh
+install -d $RPM_BUILD_ROOT{%{vg_root},%{vg_home}/.ssh}
 cp -a /etc/skel/.bash*  $RPM_BUILD_ROOT%{vg_home}
 
 %clean
@@ -140,6 +143,7 @@ fi
 %dir %attr(750,vagrant,vagrant) %{vg_home}
 %dir %attr(700,vagrant,vagrant) %{vg_home}/.ssh
 %dir %attr(640,vagrant,vagrant) %{vg_home}/.bash*
+%dir %attr(700,root,root) %{vg_root}
 
 %if 0
 %files doc
