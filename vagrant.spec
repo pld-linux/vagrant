@@ -7,7 +7,7 @@
 Summary:	Provisioning and deployment of virtual instances
 Name:		vagrant
 Version:	1.1.2
-Release:	0.15
+Release:	0.16
 License:	MIT
 Group:		Applications/Emulators
 URL:		http://vagrantup.com/
@@ -15,6 +15,8 @@ Source0:	http://files.vagrantup.com/packages/67bd4d30f7dbefa7c0abc643599f0244986
 # Source0-md5:	83093a71588f97a9eb69fa7fe07418b9
 Source1:	http://files.vagrantup.com/packages/67bd4d30f7dbefa7c0abc643599f0244986c38c8/vagrant_x86_64.rpm?/%{name}-%{version}.x86_64.rpm
 # Source1-md5:	3efa3ac73988c565e6b3236da6867557
+Source2:	https://raw.github.com/mitchellh/vagrant/master/keys/%{name}.pub
+# Source2-md5:	b440b5086dd12c3fd8abb762476b9f40
 Patch0:		https://github.com/glensc/vagrant/commit/bd8a24e945a26dbae418680d570d33dced910088.patch
 # Patch0-md5:	15aeb8e5fe95457bc0040035c3801541
 BuildRequires:	bash
@@ -63,13 +65,16 @@ bash-completion for %{name}.
 %package guest
 Summary:	Vagrant guest
 Group:		Development/Building
+URL:		http://docs-v1.vagrantup.com/v1/docs/base_boxes.html
 Requires(postun):	/usr/sbin/userdel
 Requires(pre):	/bin/id
 Requires(pre):	/usr/bin/getgid
 Requires(pre):	/usr/sbin/groupadd
 Requires(pre):	/usr/sbin/useradd
 Requires:	/etc/pld-release
+Requires:	kernel(vboxsf)
 Requires:	openssh-server
+Requires:	sudo
 Provides:	group(vagrant)
 Provides:	user(vagrant)
 %if "%{_rpmversion}" >= "5"
@@ -157,12 +162,19 @@ cp -a bin embedded $RPM_BUILD_ROOT%{_appdir}
 ln -s %{_appdir}/bin/%{name} $RPM_BUILD_ROOT%{_bindir}
 %endif
 
+cd $RPM_BUILD_ROOT%{_appdir}/embedded/gems/gems/vagrant-%{version}
+
 install -d $RPM_BUILD_ROOT/etc/bash_completion.d
-mv $RPM_BUILD_ROOT{%{_appdir}/embedded/gems/gems/vagrant-%{version}/contrib/bash/completion.sh,/etc/bash_completion.d/%{name}.sh}
+mv contrib/bash/completion.sh $RPM_BUILD_ROOT/etc/bash_completion.d/%{name}.sh
 
 # guest
 install -d $RPM_BUILD_ROOT{%{vg_root},%{vg_home}/.ssh}
 cp -a /etc/skel/.bash*  $RPM_BUILD_ROOT%{vg_home}
+
+# Since Vagrant only supports key-based authentication for SSH, we must
+# set up the vagrant user to use key-based authentication. We can get the
+# public key used by the Vagrant gem directly from its Github repository.
+mv keys/vagrant.pub $RPM_BUILD_ROOT%{vg_home}/.ssh/authorized_keys
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -195,6 +207,7 @@ fi
 %defattr(644,root,root,755)
 %dir %attr(750,vagrant,vagrant) %{vg_home}
 %dir %attr(700,vagrant,vagrant) %{vg_home}/.ssh
+%attr(600,vagrant,vagrant) %config(noreplace) %verify(not md5 mtime size) %{vg_home}/.ssh/authorized_keys
 %dir %attr(640,vagrant,vagrant) %{vg_home}/.bash*
 %dir %attr(700,root,root) %{vg_root}
 
