@@ -6,19 +6,17 @@
 
 Summary:	Provisioning and deployment of virtual instances
 Name:		vagrant
-Version:	1.1.2
+Version:	1.1.4
 Release:	0.16
 License:	MIT
 Group:		Applications/Emulators
 URL:		http://vagrantup.com/
-Source0:	http://files.vagrantup.com/packages/67bd4d30f7dbefa7c0abc643599f0244986c38c8/vagrant_i686.rpm?/%{name}-%{version}.i686.rpm
-# Source0-md5:	83093a71588f97a9eb69fa7fe07418b9
-Source1:	http://files.vagrantup.com/packages/67bd4d30f7dbefa7c0abc643599f0244986c38c8/vagrant_x86_64.rpm?/%{name}-%{version}.x86_64.rpm
-# Source1-md5:	3efa3ac73988c565e6b3236da6867557
+Source0:	http://files.vagrantup.com/packages/87613ec9392d4660ffcb1d5755307136c06af08c/vagrant_i686.rpm?/%{name}-%{version}.i686.rpm
+# Source0-md5:	970e0f11eea80ae57fd64cd25993382b
+Source1:	http://files.vagrantup.com/packages/87613ec9392d4660ffcb1d5755307136c06af08c/vagrant_x86_64.rpm?/%{name}-%{version}.x86_64.rpm
+# Source1-md5:	95f30df5cb93db6282f7edc42eedfe59
 Source2:	https://raw.github.com/mitchellh/vagrant/master/keys/%{name}.pub
 # Source2-md5:	b440b5086dd12c3fd8abb762476b9f40
-Patch0:		https://github.com/glensc/vagrant/commit/bd8a24e945a26dbae418680d570d33dced910088.patch
-# Patch0-md5:	15aeb8e5fe95457bc0040035c3801541
 BuildRequires:	bash
 BuildRequires:	file
 BuildRequires:	pkgconfig
@@ -124,9 +122,6 @@ rm embedded/rgloader/rgloader*.freebsd*.so
 %ifarch %{ix86}
 rm embedded/rgloader/rgloader*.x86_64.so
 %endif
-
-cd embedded/gems/gems/vagrant-%{version}
-%patch0 -p1
 
 %build
 # update RPATH, not to contain insecure /tmp/vagrant-temp/embedded (insecure,
