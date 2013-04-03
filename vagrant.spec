@@ -6,15 +6,15 @@
 
 Summary:	Provisioning and deployment of virtual instances
 Name:		vagrant
-Version:	1.1.4
-Release:	0.16
+Version:	1.1.5
+Release:	0.17
 License:	MIT
 Group:		Applications/Emulators
 URL:		http://vagrantup.com/
-Source0:	http://files.vagrantup.com/packages/87613ec9392d4660ffcb1d5755307136c06af08c/vagrant_i686.rpm?/%{name}-%{version}.i686.rpm
-# Source0-md5:	970e0f11eea80ae57fd64cd25993382b
-Source1:	http://files.vagrantup.com/packages/87613ec9392d4660ffcb1d5755307136c06af08c/vagrant_x86_64.rpm?/%{name}-%{version}.x86_64.rpm
-# Source1-md5:	95f30df5cb93db6282f7edc42eedfe59
+Source0:	http://files.vagrantup.com/packages/64e360814c3ad960d810456add977fd4c7d47ce6/vagrant_i686.rpm?/%{name}-%{version}.i686.rpm
+# Source0-md5:	d62c19378ca3e731b1a76bc6336d7b53
+Source1:	http://files.vagrantup.com/packages/64e360814c3ad960d810456add977fd4c7d47ce6/vagrant_x86_64.rpm?/%{name}-%{version}.x86_64.rpm
+# Source1-md5:	b4a7d312e5f0c279dbadd86fe12df4e6
 Source2:	https://raw.github.com/mitchellh/vagrant/master/keys/%{name}.pub
 # Source2-md5:	b440b5086dd12c3fd8abb762476b9f40
 BuildRequires:	bash
@@ -32,6 +32,11 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		vg_home	/home/vagrant
 %define		vg_root	/vagrant
+
+# no Provides from private modules
+%define		_noautoprovfiles	%{_appdir}
+# do not require libs provided by this package
+%define		_noautoreq		libffi.so.6
 
 %define		no_install_post_check_so	1
 
