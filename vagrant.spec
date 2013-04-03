@@ -7,7 +7,7 @@
 Summary:	Provisioning and deployment of virtual instances
 Name:		vagrant
 Version:	1.1.5
-Release:	0.17
+Release:	0.18
 License:	MIT
 Group:		Applications/Emulators
 URL:		http://vagrantup.com/
@@ -36,7 +36,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 # no Provides from private modules
 %define		_noautoprovfiles	%{_appdir}
 # do not require libs provided by this package
-%define		_noautoreq		libffi.so.6
+%define		_noautoreq		libffi.so.6 libcrypto.so.1.0.0 libruby.so.1.9 libssl.so.1.0.0 libutil.so.1 libyaml-0.so.2 libz.so.1
 
 %define		no_install_post_check_so	1
 
