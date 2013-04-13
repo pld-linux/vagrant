@@ -78,6 +78,7 @@ Requires:	/etc/pld-release
 Requires:	kernel(vboxsf)
 Requires:	openssh-server
 Requires:	sudo
+Requires:	which
 Provides:	group(vagrant)
 Provides:	user(vagrant)
 %if "%{_rpmversion}" >= "5"
