@@ -6,15 +6,15 @@
 
 Summary:	Provisioning and deployment of virtual instances
 Name:		vagrant
-Version:	1.1.5
-Release:	0.18
+Version:	1.2.1
+Release:	0.20
 License:	MIT
 Group:		Applications/Emulators
 URL:		http://vagrantup.com/
-Source0:	http://files.vagrantup.com/packages/64e360814c3ad960d810456add977fd4c7d47ce6/vagrant_i686.rpm?/%{name}-%{version}.i686.rpm
-# Source0-md5:	d62c19378ca3e731b1a76bc6336d7b53
-Source1:	http://files.vagrantup.com/packages/64e360814c3ad960d810456add977fd4c7d47ce6/vagrant_x86_64.rpm?/%{name}-%{version}.x86_64.rpm
-# Source1-md5:	b4a7d312e5f0c279dbadd86fe12df4e6
+Source0:	http://files.vagrantup.com/packages/a7853fe7b7f08dbedbc934eb9230d33be6bf746f/%{name}_%{version}_i686.rpm
+# Source0-md5:	55619f61f0d953acc8f4d3b194e37c58
+Source1:	http://files.vagrantup.com/packages/a7853fe7b7f08dbedbc934eb9230d33be6bf746f/%{name}_%{version}_x86_64.rpm
+# Source1-md5:	e70e62f36c313da12258e416f73ce408
 Source2:	https://raw.github.com/mitchellh/vagrant/master/keys/%{name}.pub
 # Source2-md5:	b440b5086dd12c3fd8abb762476b9f40
 BuildRequires:	bash
@@ -29,6 +29,7 @@ ExclusiveArch:	%{ix86} %{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_appdir	%{_libdir}/%{name}
+%define		__ruby	%{_appdir}/embedded/bin/ruby
 
 %define		vg_home	/home/vagrant
 %define		vg_root	/vagrant
@@ -122,6 +123,9 @@ test "$V" = "%{version}"
 rpm2cpio $SOURCE | cpio -i -d
 
 mv opt/vagrant/* .
+
+# ensure we use embeeded ruby, no need to install ruby twice
+grep -r bin/ruby -l . | xargs sed -i -e '1 s,#!.*bin/ruby,#!%{__ruby},'
 
 # causes chrpath on th-i686  to fail
 rm embedded/rgloader/rgloader*.freebsd*.so
