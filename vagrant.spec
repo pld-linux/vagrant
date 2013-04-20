@@ -1,45 +1,40 @@
 # NOTE:
 # - release notes: https://github.com/mitchellh/vagrant/blob/master/CHANGELOG.md
-#
-# Conditional build:
-%bcond_without	vagrant	# build vagrant package
-
 Summary:	Provisioning and deployment of virtual instances
 Name:		vagrant
 Version:	1.2.1
-Release:	0.20
+Release:	0.26
 License:	MIT
 Group:		Applications/Emulators
 URL:		http://vagrantup.com/
-Source0:	http://files.vagrantup.com/packages/a7853fe7b7f08dbedbc934eb9230d33be6bf746f/%{name}_%{version}_i686.rpm
-# Source0-md5:	55619f61f0d953acc8f4d3b194e37c58
-Source1:	http://files.vagrantup.com/packages/a7853fe7b7f08dbedbc934eb9230d33be6bf746f/%{name}_%{version}_x86_64.rpm
-# Source1-md5:	e70e62f36c313da12258e416f73ce408
-Source2:	https://raw.github.com/mitchellh/vagrant/master/keys/%{name}.pub
-# Source2-md5:	b440b5086dd12c3fd8abb762476b9f40
-BuildRequires:	bash
-BuildRequires:	file
-BuildRequires:	pkgconfig
-BuildRequires:	rpm-pythonprov
-BuildRequires:	rpm-utils
-BuildRequires:	ruby
-BuildRequires:	sed >= 4.0
-BuildRequires:	which
-ExclusiveArch:	%{ix86} %{x8664}
+Source0:	https://github.com/mitchellh/vagrant/archive/v%{version}.tar.gz?/%{name}-%{version}.tgz
+# Source0-md5:	bafaf972296d0e8a122bc2ca6e13091f
+Patch0:		source_root.patch
+Patch1:		rubygems.patch
+Patch2:		no-warning.patch
+BuildRequires:	ruby-contest >= 0.1.2
+BuildRequires:	ruby-minitest >= 2.5.1
+BuildRequires:	ruby-mocha
+BuildRequires:	ruby-rake
+BuildRequires:	ruby-rspec-core >= 2.11.0
+BuildRequires:	ruby-rspec-expectations >= 2.11.0
+BuildRequires:	ruby-rspec-mocks >= 2.11.0
+Requires:	ruby-childprocess >= 0.3.7
+Requires:	ruby-erubis >= 2.7.0
+Requires:	ruby-i18n >= 0.6.0
+Requires:	ruby-json < 1.8.0
+Requires:	ruby-json >= 1.5.1
+Requires:	ruby-log4r >= 1.1.9
+Requires:	ruby-net-scp >= 1.1.0
+Requires:	ruby-net-ssh >= 2.6.6
+Requires:	ruby-rubygems
+BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_appdir	%{_libdir}/%{name}
-%define		__ruby	%{_appdir}/embedded/bin/ruby
+%define		_appdir	%{_datadir}/%{name}
 
 %define		vg_home	/home/vagrant
 %define		vg_root	/vagrant
-
-# no Provides from private modules
-%define		_noautoprovfiles	%{_appdir}
-# do not require libs provided by this package
-%define		_noautoreq		libffi.so.6 libcrypto.so.1.0.0 libruby.so.1.9 libssl.so.1.0.0 libutil.so.1 libyaml-0.so.2 libz.so.1
-
-%define		no_install_post_check_so	1
 
 %description
 Vagrant offers scripted provisioning and deployment of virtual
@@ -110,64 +105,17 @@ BuildArch:	noarch
 Ruby documentation for %{gem_name}
 
 %prep
-%setup -qcT
-%ifarch %{ix86}
-SOURCE=%{S:0}
-%endif
-%ifarch %{x8664}
-SOURCE=%{S:1}
-%endif
-
-V=$(rpm -qp --nodigest --nosignature --qf '%{V}' $SOURCE)
-test "$V" = "%{version}"
-rpm2cpio $SOURCE | cpio -i -d
-
-mv opt/vagrant/* .
-
-# ensure we use embeeded ruby, no need to install ruby twice
-grep -r bin/ruby -l . | xargs sed -i -e '1 s,#!.*bin/ruby,#!%{__ruby},'
-
-# causes chrpath on th-i686  to fail
-rm embedded/rgloader/rgloader*.freebsd*.so
-%ifarch %{ix86}
-rm embedded/rgloader/rgloader*.x86_64.so
-%endif
-
-%build
-# update RPATH, not to contain insecure /tmp/vagrant-temp/embedded (insecure,
-# because /tmp is world writable dir) for the rest, just substitute with sed
-# (so shebangs would be correct)
-grep -r '/tmp/vagrant-temp/embedded' . -l | xargs -r file -i | while read path mime; do
-	path=${path%:}
-	case "$mime" in
-	text/*)
-		sed -i -e 's,/tmp/vagrant-temp/embedded,%{_appdir}/embedded,' "$path"
-	;;
-	application/x-executable*|application/x-sharedlib*)
-		rpath=$(chrpath -l $path) || continue
-		rpath=${rpath#$path: RPATH=}
-		[ "$rpath" ] || continue
-
-		case "$rpath" in
-		'${ORIGIN}/../lib:/tmp/vagrant-temp/embedded/lib' | \
-		'/tmp/vagrant-temp/embedded/lib:${ORIGIN}/../lib')
-			rpath=%{_appdir}/embedded/lib
-			chrpath -r "$rpath" $path
-		;;
-		esac
-	;;
-	esac
-done
+%setup -q
+%patch0 -p1
+%patch1 -p1
+%patch2 -p1
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%if %{with vagrant}
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_appdir}}
-cp -a bin embedded $RPM_BUILD_ROOT%{_appdir}
-ln -s %{_appdir}/bin/%{name} $RPM_BUILD_ROOT%{_bindir}
-%endif
-
-cd $RPM_BUILD_ROOT%{_appdir}/embedded/gems/gems/vagrant-%{version}
+install -d $RPM_BUILD_ROOT{%{ruby_vendorlibdir},%{_bindir},%{_appdir}}
+cp -a bin/* $RPM_BUILD_ROOT%{_bindir}
+cp -a lib/* $RPM_BUILD_ROOT%{ruby_vendorlibdir}
+cp -a config plugins templates $RPM_BUILD_ROOT%{_appdir}
 
 install -d $RPM_BUILD_ROOT/etc/bash_completion.d
 mv contrib/bash/completion.sh $RPM_BUILD_ROOT/etc/bash_completion.d/%{name}.sh
@@ -179,7 +127,7 @@ cp -a /etc/skel/.bash*  $RPM_BUILD_ROOT%{vg_home}
 # Since Vagrant only supports key-based authentication for SSH, we must
 # set up the vagrant user to use key-based authentication. We can get the
 # public key used by the Vagrant gem directly from its Github repository.
-mv keys/vagrant.pub $RPM_BUILD_ROOT%{vg_home}/.ssh/authorized_keys
+cp -p keys/vagrant.pub $RPM_BUILD_ROOT%{vg_home}/.ssh/authorized_keys
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -194,14 +142,12 @@ if [ "$1" = "0" ]; then
 	%groupremove vagrant
 fi
 
-%if %{with vagrant}
 %files
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/vagrant
-
-%defattr(-,root,root,-)
+%{ruby_vendorlibdir}/vagrant.rb
+%{ruby_vendorlibdir}/vagrant
 %{_appdir}
-%endif
 
 %files -n bash-completion-%{name}
 %defattr(644,root,root,755)

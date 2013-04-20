@@ -1,0 +1,7 @@
+--- vagrant-1.2.1/lib/vagrant/environment.rb	2013-04-17 07:29:18.000000000 +0300
++++ vagrant-1.2.1/lib/vagrant/environment.rb	2013-04-21 01:37:09.000000000 +0300
+@@ -1,3 +1,4 @@
++require 'rubygems'
+ require 'fileutils'
+ require 'json'
+ require 'pathname'
