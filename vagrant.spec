@@ -185,9 +185,8 @@ mv keys/vagrant.pub $RPM_BUILD_ROOT%{vg_home}/.ssh/authorized_keys
 rm -rf $RPM_BUILD_ROOT
 
 %pre guest
-# FIXME: register user in uid_gid.db.txt
-%groupadd -g 2000 vagrant
-%useradd -u 2000 -g vagrant -G wheel -c "Vagrant user" -s /bin/bash -d %{vg_home} vagrant
+%groupadd -g 291 vagrant
+%useradd -u 291 -g vagrant -G wheel -c "Vagrant user" -s /bin/bash -d %{vg_home} vagrant
 
 %postun guest
 if [ "$1" = "0" ]; then
