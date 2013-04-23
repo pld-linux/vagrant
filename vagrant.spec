@@ -3,15 +3,15 @@
 Summary:	Provisioning and deployment of virtual instances
 Name:		vagrant
 Version:	1.2.1
-Release:	0.26
+Release:	0.27
 License:	MIT
 Group:		Applications/Emulators
-URL:		http://vagrantup.com/
 Source0:	https://github.com/mitchellh/vagrant/archive/v%{version}.tar.gz?/%{name}-%{version}.tgz
 # Source0-md5:	bafaf972296d0e8a122bc2ca6e13091f
 Patch0:		source_root.patch
 Patch1:		rubygems.patch
 Patch2:		no-warning.patch
+URL:		http://vagrantup.com/
 BuildRequires:	ruby-contest >= 0.1.2
 BuildRequires:	ruby-minitest >= 2.5.1
 BuildRequires:	ruby-mocha
@@ -121,6 +121,9 @@ install -d $RPM_BUILD_ROOT/etc/bash_completion.d
 mv contrib/bash/completion.sh $RPM_BUILD_ROOT/etc/bash_completion.d/%{name}.sh
 
 # guest
+install -d $RPM_BUILD_ROOT/etc/sudoers.d
+echo 'vagrant ALL=(ALL) NOPASSWD: ALL' > $RPM_BUILD_ROOT/etc/sudoers.d/%{name}
+
 install -d $RPM_BUILD_ROOT{%{vg_root},%{vg_home}/.ssh}
 cp -a /etc/skel/.bash*  $RPM_BUILD_ROOT%{vg_home}
 
@@ -155,6 +158,7 @@ fi
 
 %files guest
 %defattr(644,root,root,755)
+%attr(440,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/sudoers.d/%{name}
 %dir %attr(750,vagrant,vagrant) %{vg_home}
 %dir %attr(700,vagrant,vagrant) %{vg_home}/.ssh
 %attr(600,vagrant,vagrant) %config(noreplace) %verify(not md5 mtime size) %{vg_home}/.ssh/authorized_keys
