@@ -3,7 +3,7 @@
 Summary:	Provisioning and deployment of virtual instances
 Name:		vagrant
 Version:	1.2.2
-Release:	0.29
+Release:	0.31
 License:	MIT
 Group:		Applications/Emulators
 Source0:	https://github.com/mitchellh/vagrant/archive/v%{version}.tar.gz?/%{name}-%{version}.tgz
@@ -23,6 +23,7 @@ Requires:	curl
 Requires:	ruby-childprocess >= 0.3.7
 Requires:	ruby-erubis >= 2.7.0
 Requires:	ruby-i18n >= 0.6.0
+Requires:	bsdtar
 Requires:	ruby-json < 1.8.0
 Requires:	ruby-json >= 1.5.1
 Requires:	ruby-log4r >= 1.1.9
