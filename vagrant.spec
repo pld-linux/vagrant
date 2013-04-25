@@ -19,11 +19,12 @@ BuildRequires:	ruby-rake
 BuildRequires:	ruby-rspec-core >= 2.11.0
 BuildRequires:	ruby-rspec-expectations >= 2.11.0
 BuildRequires:	ruby-rspec-mocks >= 2.11.0
+Requires:	VirtualBox
+Requires:	bsdtar
 Requires:	curl
 Requires:	ruby-childprocess >= 0.3.7
 Requires:	ruby-erubis >= 2.7.0
 Requires:	ruby-i18n >= 0.6.0
-Requires:	bsdtar
 Requires:	ruby-json < 1.8.0
 Requires:	ruby-json >= 1.5.1
 Requires:	ruby-log4r >= 1.1.9
