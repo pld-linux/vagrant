@@ -3,7 +3,7 @@
 Summary:	Provisioning and deployment of virtual instances
 Name:		vagrant
 Version:	1.2.2
-Release:	0.27
+Release:	0.29
 License:	MIT
 Group:		Applications/Emulators
 Source0:	https://github.com/mitchellh/vagrant/archive/v%{version}.tar.gz?/%{name}-%{version}.tgz
@@ -19,6 +19,7 @@ BuildRequires:	ruby-rake
 BuildRequires:	ruby-rspec-core >= 2.11.0
 BuildRequires:	ruby-rspec-expectations >= 2.11.0
 BuildRequires:	ruby-rspec-mocks >= 2.11.0
+Requires:	curl
 Requires:	ruby-childprocess >= 0.3.7
 Requires:	ruby-erubis >= 2.7.0
 Requires:	ruby-i18n >= 0.6.0
@@ -115,7 +116,7 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{ruby_vendorlibdir},%{_bindir},%{_appdir}}
 cp -a bin/* $RPM_BUILD_ROOT%{_bindir}
 cp -a lib/* $RPM_BUILD_ROOT%{ruby_vendorlibdir}
-cp -a config plugins templates $RPM_BUILD_ROOT%{_appdir}
+cp -a config keys plugins templates $RPM_BUILD_ROOT%{_appdir}
 
 install -d $RPM_BUILD_ROOT/etc/bash_completion.d
 mv contrib/bash/completion.sh $RPM_BUILD_ROOT/etc/bash_completion.d/%{name}.sh
