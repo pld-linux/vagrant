@@ -57,9 +57,6 @@ Summary:	bash-completion for %{name}
 Group:		Applications/Shells
 Requires:	%{name}
 Requires:	bash-completion
-%if "%{_rpmversion}" >= "5"
-BuildArch:	noarch
-%endif
 
 %description -n bash-completion-%{name}
 bash-completion for %{name}.
@@ -80,9 +77,6 @@ Requires:	sudo
 Requires:	which
 Provides:	group(vagrant)
 Provides:	user(vagrant)
-%if "%{_rpmversion}" >= "5"
-BuildArch:	noarch
-%endif
 
 %description guest
 This is the package to be installed in Vagrant guest.
@@ -100,9 +94,6 @@ See: <https://github.com/mitchellh/vagrant/tree/master/keys/>.
 Summary:	Documentation for %{name}
 Group:		Documentation
 Requires:	%{name} = %{version}-%{release}
-%if "%{_rpmversion}" >= "5"
-BuildArch:	noarch
-%endif
 
 %description doc
 Ruby documentation for %{gem_name}
