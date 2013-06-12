@@ -3,7 +3,7 @@
 Summary:	Provisioning and deployment of virtual instances
 Name:		vagrant
 Version:	1.2.2
-Release:	2
+Release:	3
 License:	MIT
 Group:		Applications/Emulators
 Source0:	https://github.com/mitchellh/vagrant/archive/v%{version}.tar.gz?/%{name}-%{version}.tgz
@@ -12,7 +12,7 @@ Patch0:		source_root.patch
 Patch1:		rubygems.patch
 Patch2:		no-warning.patch
 Patch3:		Vagrantfile-ssh-agent.patch
-URL:		http://vagrantup.com/
+URL:		http://www.vagrantup.com/
 BuildRequires:	ruby-contest >= 0.1.2
 BuildRequires:	ruby-minitest >= 2.5.1
 BuildRequires:	ruby-mocha
@@ -74,7 +74,7 @@ Requires(pre):	/usr/sbin/useradd
 Requires:	/etc/pld-release
 Requires:	kernel(vboxsf)
 Requires:	openssh-server
-Requires:	sudo
+Requires:	sudo >= 1.7.4p3-2
 Requires:	which
 Provides:	group(vagrant)
 Provides:	user(vagrant)
