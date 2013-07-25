@@ -13,6 +13,7 @@ Patch1:		rubygems.patch
 Patch2:		no-warning.patch
 Patch3:		Vagrantfile-ssh-agent.patch
 URL:		http://www.vagrantup.com/
+BuildRequires:	rpm-rubyprov
 BuildRequires:	ruby-contest >= 0.1.2
 BuildRequires:	ruby-minitest >= 2.5.1
 BuildRequires:	ruby-mocha
