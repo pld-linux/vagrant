@@ -26,8 +26,6 @@ Requires:	curl
 Requires:	ruby-childprocess >= 0.3.7
 Requires:	ruby-erubis >= 2.7.0
 Requires:	ruby-i18n >= 0.6.0
-Requires:	ruby-json < 1.8.0
-Requires:	ruby-json >= 1.5.1
 Requires:	ruby-log4r >= 1.1.9
 Requires:	ruby-net-scp >= 1.1.0
 Requires:	ruby-net-ssh >= 2.6.6
