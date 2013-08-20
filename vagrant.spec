@@ -2,16 +2,15 @@
 # - release notes: https://github.com/mitchellh/vagrant/blob/master/CHANGELOG.md
 Summary:	Provisioning and deployment of virtual instances
 Name:		vagrant
-Version:	1.2.2
-Release:	3
+Version:	1.2.3
+Release:	1
 License:	MIT
 Group:		Applications/Emulators
 Source0:	https://github.com/mitchellh/vagrant/archive/v%{version}.tar.gz?/%{name}-%{version}.tgz
-# Source0-md5:	68d2caa329b314982266e45be38c928b
+# Source0-md5:	de4c7c67412eb0ab26d99532a593d815
 Patch0:		source_root.patch
 Patch1:		rubygems.patch
 Patch2:		no-warning.patch
-Patch3:		Vagrantfile-ssh-agent.patch
 URL:		http://www.vagrantup.com/
 BuildRequires:	rpm-rubyprov
 BuildRequires:	ruby-contest >= 0.1.2
@@ -105,7 +104,6 @@ Ruby documentation for %{gem_name}
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
 
 %install
 rm -rf $RPM_BUILD_ROOT
