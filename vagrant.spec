@@ -36,6 +36,7 @@ BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_appdir	%{_datadir}/%{name}
+%define		bash_compdir	%{_datadir}/bash-completion/completions
 
 %define		vg_home	/home/vagrant
 %define		vg_root	/vagrant
@@ -57,7 +58,7 @@ consumer OS platform (Linux, Mac OS X, and Windows).
 Summary:	bash-completion for %{name}
 Group:		Applications/Shells
 Requires:	%{name}
-Requires:	bash-completion
+Requires:	bash-completion >= 2.0
 
 %description -n bash-completion-%{name}
 bash-completion for %{name}.
@@ -105,6 +106,9 @@ Ruby documentation for %{gem_name}
 %patch1 -p1
 %patch2 -p1
 
+# cleanup backups after patching
+find '(' -name '*~' -o -name '*.orig' ')' -print0 | xargs -0 -r -l512 rm -f
+
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{ruby_vendorlibdir},%{_bindir},%{_appdir}}
@@ -112,8 +116,8 @@ cp -a bin/* $RPM_BUILD_ROOT%{_bindir}
 cp -a lib/* $RPM_BUILD_ROOT%{ruby_vendorlibdir}
 cp -a config keys plugins templates $RPM_BUILD_ROOT%{_appdir}
 
-install -d $RPM_BUILD_ROOT/etc/bash_completion.d
-mv contrib/bash/completion.sh $RPM_BUILD_ROOT/etc/bash_completion.d/%{name}.sh
+install -d $RPM_BUILD_ROOT%{bash_compdir}
+mv contrib/bash/completion.sh $RPM_BUILD_ROOT%{bash_compdir}/%{name}
 
 # guest
 install -d $RPM_BUILD_ROOT/etc/sudoers.d
@@ -149,7 +153,7 @@ fi
 
 %files -n bash-completion-%{name}
 %defattr(644,root,root,755)
-/etc/bash_completion.d/*
+%{bash_compdir}/%{name}
 
 %files guest
 %defattr(644,root,root,755)
