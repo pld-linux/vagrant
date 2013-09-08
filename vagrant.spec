@@ -2,12 +2,12 @@
 # - release notes: https://github.com/mitchellh/vagrant/blob/master/CHANGELOG.md
 Summary:	Provisioning and deployment of virtual instances
 Name:		vagrant
-Version:	1.2.7
+Version:	1.3.1
 Release:	1
 License:	MIT
 Group:		Applications/Emulators
 Source0:	https://github.com/mitchellh/vagrant/archive/v%{version}.tar.gz?/%{name}-%{version}.tgz
-# Source0-md5:	23e57916d20acfc8e5e3acc67730f1cd
+# Source0-md5:	862d8f73f8aab4d99c72e3791177e290
 Patch0:		source_root.patch
 Patch1:		rubygems.patch
 Patch2:		no-warning.patch
