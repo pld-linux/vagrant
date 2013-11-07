@@ -11,6 +11,7 @@ Source0:	https://github.com/mitchellh/vagrant/archive/v%{version}/%{name}-%{vers
 Patch0:		source_root.patch
 Patch1:		rubygems.patch
 Patch2:		no-warning.patch
+Patch3:		vagrantfile-shell-provision.patch
 URL:		http://www.vagrantup.com/
 BuildRequires:	bash
 BuildRequires:	rpm-rubyprov
@@ -105,6 +106,7 @@ Ruby documentation for %{gem_name}
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 # cleanup backups after patching
 find '(' -name '*~' -o -name '*.orig' ')' -print0 | xargs -0 -r -l512 rm -f

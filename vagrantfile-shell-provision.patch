@@ -1,0 +1,21 @@
+--- vagrant-1.3.4/templates/commands/init/Vagrantfile.erb~	2013-10-02 18:42:06.000000000 +0300
++++ vagrant-1.3.4/templates/commands/init/Vagrantfile.erb	2013-11-07 22:01:54.574403429 +0200
+@@ -55,6 +55,18 @@
+   # View the documentation for the provider you're using for more
+   # information on available options.
+ 
++  # The shell provisioner allows you to upload and execute a script as the root
++  # user within the guest machine.
++  #
++  # Shell provisioning is ideal for users new to Vagrant who want to get up and
++  # running quickly and provides a strong alternative for users who aren't
++  # comfortable with a full configuration management system such as Chef or
++  # Puppet.
++  #
++  # http://docs.vagrantup.com/v2/provisioning/shell.html
++  #
++  # config.vm.provision :shell, :inline => "poldek -u chef --noask"
++
+   # Enable provisioning with Puppet stand alone.  Puppet manifests
+   # are contained in a directory path relative to this Vagrantfile.
+   # You will need to create the manifests directory and a manifest in
