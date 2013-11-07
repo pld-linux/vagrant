@@ -12,6 +12,7 @@ Patch0:		source_root.patch
 Patch1:		rubygems.patch
 Patch2:		no-warning.patch
 URL:		http://www.vagrantup.com/
+BuildRequires:	bash
 BuildRequires:	rpm-rubyprov
 BuildRequires:	ruby-contest >= 0.1.2
 BuildRequires:	ruby-minitest >= 2.5.1
@@ -26,8 +27,8 @@ Requires:	curl
 Requires:	ruby-childprocess >= 0.3.7
 Requires:	ruby-erubis >= 2.7.0
 Requires:	ruby-i18n >= 0.6.0
-Requires:	ruby-log4r >= 1.1.9
 Requires:	ruby-json
+Requires:	ruby-log4r >= 1.1.9
 Requires:	ruby-net-scp >= 1.1.0
 Requires:	ruby-net-ssh >= 2.6.6
 Requires:	ruby-rubygems
@@ -116,14 +117,14 @@ cp -a lib/* $RPM_BUILD_ROOT%{ruby_vendorlibdir}
 cp -a config keys plugins templates $RPM_BUILD_ROOT%{_appdir}
 
 install -d $RPM_BUILD_ROOT%{bash_compdir}
-mv contrib/bash/completion.sh $RPM_BUILD_ROOT%{bash_compdir}/%{name}
+cp -p contrib/bash/completion.sh $RPM_BUILD_ROOT%{bash_compdir}/%{name}
 
 # guest
 install -d $RPM_BUILD_ROOT/etc/sudoers.d
 echo 'vagrant ALL=(ALL) NOPASSWD: ALL' > $RPM_BUILD_ROOT/etc/sudoers.d/%{name}
 
 install -d $RPM_BUILD_ROOT{%{vg_root},%{vg_home}/.ssh}
-cp -a /etc/skel/.bash*  $RPM_BUILD_ROOT%{vg_home}
+cp -p /etc/skel/.bash*  $RPM_BUILD_ROOT%{vg_home}
 
 # Since Vagrant only supports key-based authentication for SSH, we must
 # set up the vagrant user to use key-based authentication. We can get the
