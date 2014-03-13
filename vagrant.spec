@@ -11,7 +11,7 @@ Source0:	https://github.com/mitchellh/vagrant/archive/v%{version}/%{name}-%{vers
 Patch0:		source_root.patch
 Patch1:		rubygems.patch
 Patch2:		no-warning.patch
-Patch3:		vagrantfile-shell-provision.patch
+Patch3:		%{name}file-shell-provision.patch
 URL:		http://www.vagrantup.com/
 BuildRequires:	bash
 BuildRequires:	rpm-rubyprov
@@ -25,10 +25,12 @@ BuildRequires:	ruby-rspec-mocks >= 2.11.0
 Requires:	VirtualBox
 Requires:	bsdtar
 Requires:	curl
-Requires:	ruby-childprocess >= 0.3.7
+Requires:	ruby-bundler >= 1.5.2
+Requires:	ruby-childprocess >= 0.5.0
 Requires:	ruby-erubis >= 2.7.0
 Requires:	ruby-i18n >= 0.6.0
 Requires:	ruby-json
+Requires:	ruby-log4r < 1.1.11
 Requires:	ruby-log4r >= 1.1.9
 Requires:	ruby-net-scp >= 1.1.0
 Requires:	ruby-net-ssh >= 2.6.6
@@ -116,7 +118,7 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{ruby_vendorlibdir},%{_bindir},%{_appdir}}
 cp -a bin/* $RPM_BUILD_ROOT%{_bindir}
 cp -a lib/* $RPM_BUILD_ROOT%{ruby_vendorlibdir}
-cp -a config keys plugins templates $RPM_BUILD_ROOT%{_appdir}
+cp -a keys plugins templates $RPM_BUILD_ROOT%{_appdir}
 
 install -d $RPM_BUILD_ROOT%{bash_compdir}
 cp -p contrib/bash/completion.sh $RPM_BUILD_ROOT%{bash_compdir}/%{name}
