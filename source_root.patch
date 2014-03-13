@@ -8,3 +8,14 @@
      @source_root ||= Pathname.new(File.expand_path('../../../', __FILE__))
    end
  
+--- ./bin/vagrant~	2014-03-13 07:24:35.000000000 +0200
++++ ./bin/vagrant	2014-03-13 09:48:05.406002464 +0200
+@@ -42,7 +42,7 @@
+   ruby_path = File.join(RbConfig::CONFIG["bindir"], RbConfig::CONFIG["ruby_install_name"])
+   Kernel.exec(
+     ruby_path,
+-    File.expand_path("../../lib/vagrant/pre-rubygems.rb", __FILE__),
++    File.expand_path("/usr/share/ruby/vendor_ruby/1.9/vagrant/pre-rubygems.rb", __FILE__),
+     *ARGV)
+   raise "Fatal error: this line should never be reached"
+ end
