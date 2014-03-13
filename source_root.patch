@@ -1,10 +1,10 @@
---- vagrant-1.2.1/lib/vagrant.rb~	2013-04-17 07:29:18.000000000 +0300
-+++ vagrant-1.2.1/lib/vagrant.rb	2013-04-21 01:34:14.000000000 +0300
-@@ -114,6 +114,7 @@
-   # The source root is the path to the root directory of
-   # the Vagrant gem.
+--- vagrant-1.5.0/lib/vagrant/shared_helpers.rb~	2014-03-10 07:50:03.000000000 +0200
++++ vagrant-1.5.0/lib/vagrant/shared_helpers.rb	2014-03-13 07:15:33.997139002 +0200
+@@ -45,6 +45,7 @@
+   #
+   # @return [Pathname]
    def self.source_root
 +    @source_root ||= Pathname.new('/usr/share/vagrant')
-     @source_root ||= Pathname.new(File.expand_path('../../', __FILE__))
+     @source_root ||= Pathname.new(File.expand_path('../../../', __FILE__))
    end
  
