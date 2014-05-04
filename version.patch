@@ -1,0 +1,10 @@
+--- vagrant-1.5.4/lib/vagrant/version.rb~	2014-04-21 21:50:01.000000000 +0300
++++ vagrant-1.5.4/lib/vagrant/version.rb	2014-05-04 11:10:11.382221217 +0300
+@@ -2,6 +2,5 @@
+   # This will always be up to date with the current version of Vagrant,
+   # since it is used to generate the gemspec and is also the source of
+   # the version for `vagrant -v`
+-  VERSION = File.read(
+-    File.expand_path("../../../version.txt", __FILE__)).chomp
++  VERSION = '__VERSION__'
+ end
