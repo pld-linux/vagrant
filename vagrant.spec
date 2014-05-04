@@ -3,7 +3,7 @@
 Summary:	Provisioning and deployment of virtual instances
 Name:		vagrant
 Version:	1.5.4
-Release:	0.4
+Release:	0.6
 License:	MIT
 Group:		Applications/Emulators
 Source0:	https://github.com/mitchellh/vagrant/archive/v%{version}/%{name}-%{version}.tar.gz
@@ -120,12 +120,20 @@ sed -i -e "s/__VERSION__/$VERSION/" lib/vagrant/version.rb
 # cleanup backups after patching
 find '(' -name '*~' -o -name '*.orig' ')' -print0 | xargs -0 -r -l512 rm -f
 
+%build
+# make gemspec self-contained
+ruby -r rubygems -e 'spec = eval(File.read("%{name}.gemspec"))
+	File.open("%{name}-%{version}.gemspec", "w") do |file|
+	file.puts spec.to_ruby_for_cache
+end'
+
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{ruby_vendorlibdir},%{_bindir},%{_appdir}}
+install -d $RPM_BUILD_ROOT{%{ruby_vendorlibdir},%{ruby_specdir},%{_bindir},%{_appdir}}
 cp -a bin/* $RPM_BUILD_ROOT%{_bindir}
 cp -a lib/* $RPM_BUILD_ROOT%{ruby_vendorlibdir}
 cp -a keys plugins templates $RPM_BUILD_ROOT%{_appdir}
+cp -p %{name}-%{version}.gemspec $RPM_BUILD_ROOT%{ruby_specdir}
 
 install -d $RPM_BUILD_ROOT%{bash_compdir}
 cp -p contrib/bash/completion.sh $RPM_BUILD_ROOT%{bash_compdir}/%{name}
@@ -160,6 +168,7 @@ fi
 %attr(755,root,root) %{_bindir}/vagrant
 %{ruby_vendorlibdir}/vagrant.rb
 %{ruby_vendorlibdir}/vagrant
+%{ruby_specdir}/%{name}-%{version}.gemspec
 %{_appdir}
 
 %files -n bash-completion-%{name}
