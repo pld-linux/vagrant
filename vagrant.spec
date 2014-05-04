@@ -2,12 +2,12 @@
 # - release notes: https://github.com/mitchellh/vagrant/blob/master/CHANGELOG.md
 Summary:	Provisioning and deployment of virtual instances
 Name:		vagrant
-Version:	1.5.0
-Release:	1
+Version:	1.5.4
+Release:	0.3
 License:	MIT
 Group:		Applications/Emulators
 Source0:	https://github.com/mitchellh/vagrant/archive/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	fa927affdee693d5701f3174d8911587
+# Source0-md5:	f6c22ddf494b3bcd860a751e38a8ef1c
 Patch0:		source_root.patch
 Patch1:		rubygems.patch
 Patch2:		no-warning.patch
@@ -15,13 +15,13 @@ Patch3:		%{name}file-shell-provision.patch
 URL:		http://www.vagrantup.com/
 BuildRequires:	bash
 BuildRequires:	rpm-rubyprov
+%if %{with tests}
 BuildRequires:	ruby-contest >= 0.1.2
 BuildRequires:	ruby-minitest >= 2.5.1
 BuildRequires:	ruby-mocha
 BuildRequires:	ruby-rake
-BuildRequires:	ruby-rspec-core >= 2.11.0
-BuildRequires:	ruby-rspec-expectations >= 2.11.0
-BuildRequires:	ruby-rspec-mocks >= 2.11.0
+BuildRequires:	ruby-rspec >= 2.14.0
+%endif
 Requires:	VirtualBox
 Requires:	bsdtar
 Requires:	curl
@@ -29,10 +29,11 @@ Requires:	ruby-bundler >= 1.5.2
 Requires:	ruby-childprocess >= 0.5.0
 Requires:	ruby-erubis >= 2.7.0
 Requires:	ruby-i18n >= 0.6.0
-Requires:	ruby-json
+Requires:	ruby-listen >= 2.7.1
 Requires:	ruby-log4r < 1.1.11
 Requires:	ruby-log4r >= 1.1.9
 Requires:	ruby-net-scp >= 1.1.0
+Requires:	ruby-net-ssh < 2.8.0
 Requires:	ruby-net-ssh >= 2.6.6
 Requires:	ruby-rubygems
 BuildArch:	noarch
