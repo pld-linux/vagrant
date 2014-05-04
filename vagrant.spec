@@ -29,6 +29,7 @@ Requires:	ruby-bundler >= 1.5.2
 Requires:	ruby-childprocess >= 0.5.0
 Requires:	ruby-erubis >= 2.7.0
 Requires:	ruby-i18n >= 0.6.0
+Requires:	ruby-json
 Requires:	ruby-listen >= 2.7.1
 Requires:	ruby-log4r < 1.1.11
 Requires:	ruby-log4r >= 1.1.9
