@@ -2,12 +2,12 @@
 # - release notes: https://github.com/mitchellh/vagrant/blob/master/CHANGELOG.md
 Summary:	Provisioning and deployment of virtual instances
 Name:		vagrant
-Version:	1.5.4
-Release:	0.6
+Version:	1.6.3
+Release:	0.1
 License:	MIT
 Group:		Applications/Emulators
 Source0:	https://github.com/mitchellh/vagrant/archive/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	f6c22ddf494b3bcd860a751e38a8ef1c
+# Source0-md5:	55a91a9d9cba7b8b9d126c75b114e510
 Patch0:		source_root.patch
 Patch1:		rubygems.patch
 Patch2:		no-warning.patch
@@ -39,6 +39,8 @@ Requires:	ruby-net-scp >= 1.1.0
 Requires:	ruby-net-ssh < 2.8.0
 Requires:	ruby-net-ssh >= 2.6.6
 Requires:	ruby-rubygems
+Suggests:	VirtualBox-gui
+Suggests:	rdesktop
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 

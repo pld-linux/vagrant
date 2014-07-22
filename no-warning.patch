@@ -1,10 +1,10 @@
---- vagrant-1.5.0/bin/vagrant~	2014-03-10 07:50:03.000000000 +0200
-+++ vagrant-1.5.0/bin/vagrant	2014-03-13 07:17:05.591081469 +0200
-@@ -137,11 +137,6 @@
+--- vagrant-1.6.3/bin/vagrant~	2014-07-22 06:02:40.000000000 +0300
++++ vagrant-1.6.3/bin/vagrant	2014-07-22 06:06:52.465833858 +0300
+@@ -156,11 +156,6 @@
    logger.debug("Creating Vagrant environment")
    env = Vagrant::Environment.new(opts)
  
--  if !Vagrant.in_installer?
+-  if !Vagrant.in_installer? && !Vagrant.very_quiet?
 -    # If we're not in the installer, warn.
 -    env.ui.warn(I18n.t("vagrant.general.not_in_installer") + "\n", prefix: false)
 -  end
