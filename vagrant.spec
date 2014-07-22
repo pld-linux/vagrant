@@ -16,6 +16,7 @@ Patch4:		version.patch
 URL:		http://www.vagrantup.com/
 BuildRequires:	bash
 BuildRequires:	rpm-rubyprov
+BuildRequires:	ruby > 1:2.0
 %if %{with tests}
 BuildRequires:	ruby-contest >= 0.1.2
 BuildRequires:	ruby-minitest >= 2.5.1
