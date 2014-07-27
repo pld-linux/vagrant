@@ -13,6 +13,7 @@ Patch1:		rubygems.patch
 Patch2:		no-warning.patch
 Patch3:		%{name}file-shell-provision.patch
 Patch4:		version.patch
+Patch5:		no-gems.patch
 URL:		http://www.vagrantup.com/
 BuildRequires:	bash
 BuildRequires:	rpm-rubyprov
@@ -116,6 +117,7 @@ Ruby documentation for %{gem_name}
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 VERSION=$(cat version.txt)
 sed -i -e "s/__VERSION__/$VERSION/" lib/vagrant/version.rb
