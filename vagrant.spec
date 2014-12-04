@@ -9,6 +9,7 @@ License:	MIT
 Group:		Applications/Emulators
 Source0:	https://github.com/mitchellh/vagrant/archive/v%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	55a91a9d9cba7b8b9d126c75b114e510
+Source100:	runtime-broken
 Patch0:		source_root.patch
 Patch1:		rubygems.patch
 Patch2:		no-warning.patch
