@@ -3,6 +3,7 @@
 Summary:	Provisioning and deployment of virtual instances
 Name:		vagrant
 Version:	1.6.3
+# NOTE: test that it actually works before doing rel "1"
 Release:	0.1
 License:	MIT
 Group:		Applications/Emulators
