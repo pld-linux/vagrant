@@ -4,12 +4,12 @@ Summary:	Provisioning and deployment of virtual instances
 Name:		vagrant
 Version:	1.7.1
 # NOTE: test that it actually works before doing rel "1"
-Release:	0.1
+Release:	0.3
 License:	MIT
 Group:		Applications/Emulators
 Source0:	https://github.com/mitchellh/vagrant/archive/v%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	6bfb1440145f943e7b683ac99d06adec
-Source100:	runtime-broken
+#Source100:	runtime-broken
 Patch0:		source_root.patch
 Patch1:		rubygems.patch
 Patch2:		no-warning.patch
@@ -136,11 +136,10 @@ end'
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{ruby_vendorlibdir},%{ruby_specdir},%{_bindir},%{_appdir}}
-cp -a bin/* $RPM_BUILD_ROOT%{_bindir}
-cp -a lib/* $RPM_BUILD_ROOT%{ruby_vendorlibdir}
-cp -a keys plugins templates $RPM_BUILD_ROOT%{_appdir}
+install -d $RPM_BUILD_ROOT{%{ruby_gemdir}/gems/%{name}-%{version},%{ruby_specdir},%{_bindir}}
+cp -a lib bin keys plugins templates $RPM_BUILD_ROOT%{ruby_gemdir}/gems/%{name}-%{version}
 cp -p %{name}-%{version}.gemspec $RPM_BUILD_ROOT%{ruby_specdir}
+ln -s %{ruby_gemdir}/gems/%{name}-%{version}/bin/%{name} $RPM_BUILD_ROOT%{_bindir}
 
 install -d $RPM_BUILD_ROOT%{bash_compdir}
 cp -p contrib/bash/completion.sh $RPM_BUILD_ROOT%{bash_compdir}/%{name}
@@ -173,10 +172,19 @@ fi
 %files
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/vagrant
-%{ruby_vendorlibdir}/vagrant.rb
-%{ruby_vendorlibdir}/vagrant
+#%{ruby_vendorlibdir}/vagrant.rb
+#%{ruby_vendorlibdir}/vagrant
+#%{_appdir}
+
+%dir %{ruby_gemdir}/gems/%{name}-%{version}
+%dir %{ruby_gemdir}/gems/%{name}-%{version}/bin
+%attr(755,root,root) %{ruby_gemdir}/gems/%{name}-%{version}/bin/*
+%{ruby_gemdir}/gems/%{name}-%{version}/keys
+%{ruby_gemdir}/gems/%{name}-%{version}/lib
+%{ruby_gemdir}/gems/%{name}-%{version}/plugins
+%{ruby_gemdir}/gems/%{name}-%{version}/templates
+
 %{ruby_specdir}/%{name}-%{version}.gemspec
-%{_appdir}
 
 %files -n bash-completion-%{name}
 %defattr(644,root,root,755)

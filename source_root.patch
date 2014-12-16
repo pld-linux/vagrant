@@ -15,7 +15,7 @@
    Kernel.exec(
      ruby_path,
 -    File.expand_path("../../lib/vagrant/pre-rubygems.rb", __FILE__),
-+    File.expand_path("/usr/share/ruby/vendor_ruby/vagrant/pre-rubygems.rb", __FILE__),
++    File.expand_path("/usr/share/gems/gems/vagrant-1.7.1/lib/vagrant/pre-rubygems.rb", __FILE__),
      *ARGV)
    raise "Fatal error: this line should never be reached"
  end
