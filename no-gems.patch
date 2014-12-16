@@ -1,12 +1,13 @@
---- vagrant-1.6.3/vagrant.gemspec~	2014-05-29 20:36:24.000000000 +0300
-+++ vagrant-1.6.3/vagrant.gemspec	2014-07-27 12:56:26.913246802 +0300
-@@ -23,9 +23,6 @@
-   s.add_dependency "log4r", "~> 1.1.9", "< 1.1.11"
+--- vagrant-1.7.0/vagrant.gemspec~	2014-12-10 06:38:17.000000000 +0200
++++ vagrant-1.7.0/vagrant.gemspec	2014-12-14 13:20:27.428207093 +0200
+@@ -25,10 +25,7 @@
    s.add_dependency "net-ssh", ">= 2.6.6", "< 2.10.0"
+   s.add_dependency "net-sftp", "~> 2.1"
    s.add_dependency "net-scp", "~> 1.1.0"
 -  s.add_dependency "rb-kqueue", "~> 0.2.0"
+   s.add_dependency "rest-client", "~> 1.7"
 -  s.add_dependency "wdm", "~> 0.1.0"
 -  s.add_dependency "winrm", "~> 1.1.3"
  
-   s.add_development_dependency "rake"
-   s.add_development_dependency "contest", ">= 0.1.2"
+   # We lock this down to avoid compilation issues.
+   s.add_dependency "nokogiri", "= 1.6.3.1"
