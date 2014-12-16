@@ -9,11 +9,11 @@ License:	MIT
 Group:		Applications/Emulators
 Source0:	https://github.com/mitchellh/vagrant/archive/v%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	6bfb1440145f943e7b683ac99d06adec
-#Source100:	runtime-broken
+Source100:	runtime-broken
 Patch0:		source_root.patch
 Patch1:		rubygems.patch
 Patch2:		no-warning.patch
-Patch3:		%{name}file-shell-provision.patch
+Patch3:		Vagrantfile.patch
 Patch4:		version.patch
 Patch5:		no-gems.patch
 URL:		http://www.vagrantup.com/
