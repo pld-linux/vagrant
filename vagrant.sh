@@ -15,10 +15,6 @@ export GEM_PATH
 # Export gem paths so it can find vagrant own gem
 export GEM_HOME="${GEM_PATH}"
 
-# Export an enviromental variable to say we're in a Vagrant
-# installer created environment.
-export VAGRANT_INSTALLER_ENV=1
-
 # Unset any RUBYOPT and RUBYLIB, we don't want these bleeding into our
 # runtime.
 unset RUBYOPT
