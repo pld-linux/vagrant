@@ -1,0 +1,43 @@
+enable checkpoint only if VAGRANT_CHECKPOINT_ENABLE=1 is set
+
+--- vagrant-1.7.1/lib/vagrant/environment.rb~	2015-02-01 20:31:59.000000000 +0200
++++ vagrant-1.7.1/lib/vagrant/environment.rb	2015-02-01 20:37:14.419051054 +0200
+@@ -5,7 +5,6 @@
+ require 'set'
+ require 'thread'
+ 
+-require "checkpoint"
+ require 'log4r'
+ 
+ require 'vagrant/util/file_mode'
+@@ -134,12 +133,20 @@
+       @checkpoint_thr = Thread.new do
+         Thread.current[:result] = nil
+ 
++        # Must enable by env var
++        if ENV["VAGRANT_CHECKPOINT_ENABLE"].to_s != ""
++          @logger.info("checkpoint: not enabled from env var")
++          next
++        end
++
+         # If we disabled checkpoint via env var, don't run this
+         if ENV["VAGRANT_CHECKPOINT_DISABLE"].to_s != ""
+           @logger.info("checkpoint: disabled from env var")
+           next
+         end
+ 
++		require "checkpoint"
++
+         # If we disabled state and knowing what alerts we've seen, then
+         # disable the signature file.
+         signature_file = @data_dir.join("checkpoint_signature")
+--- vagrant-1.7.1/vagrant.gemspec~	2015-02-01 20:31:59.000000000 +0200
++++ vagrant-1.7.1/vagrant.gemspec	2015-02-01 20:37:49.334191244 +0200
+@@ -20,7 +20,6 @@
+   s.add_dependency "erubis", "~> 2.7.0"
+   s.add_dependency "i18n", "~> 0.6.0"
+   s.add_dependency "listen", "~> 2.7.11"
+-  s.add_dependency "hashicorp-checkpoint", "~> 0.1.1"
+   s.add_dependency "log4r", "~> 1.1.9", "< 1.1.11"
+   s.add_dependency "net-ssh", ">= 2.6.6", "< 2.10.0"
+   s.add_dependency "net-sftp", "~> 2.1"

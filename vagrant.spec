@@ -4,7 +4,7 @@ Summary:	Provisioning and deployment of virtual instances
 Name:		vagrant
 Version:	1.7.1
 # NOTE: test that it actually works before doing rel "1"
-Release:	0.7
+Release:	0.9
 License:	MIT
 Group:		Applications/Emulators
 Source0:	https://github.com/mitchellh/vagrant/archive/v%{version}/%{name}-%{version}.tar.gz
@@ -16,6 +16,7 @@ Patch2:		no-warning.patch
 Patch3:		Vagrantfile.patch
 Patch4:		version.patch
 Patch5:		no-gems.patch
+Patch6:		checkpoint.patch
 URL:		http://www.vagrantup.com/
 BuildRequires:	bash
 BuildRequires:	rpm-rubyprov
@@ -120,6 +121,7 @@ Ruby documentation for %{gem_name}
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 VERSION=$(cat version.txt)
 sed -i -e "s/__VERSION__/$VERSION/" lib/vagrant/version.rb
