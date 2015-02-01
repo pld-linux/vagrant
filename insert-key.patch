@@ -1,0 +1,15 @@
+disable insert_key=trye by default
+
+https://github.com/mitchellh/vagrant/issues/2608
+
+--- vagrant-1.7.1/plugins/kernel_v2/config/ssh_connect.rb~	2014-12-12 11:36:39.000000000 +0200
++++ vagrant-1.7.1/plugins/kernel_v2/config/ssh_connect.rb	2015-02-01 20:47:27.907465716 +0200
+@@ -23,7 +23,7 @@
+         @private_key_path = nil if @private_key_path == UNSET_VALUE
+         @username         = nil if @username == UNSET_VALUE
+         @password         = nil if @password == UNSET_VALUE
+-        @insert_key       = true if @insert_key == UNSET_VALUE
++        @insert_key       = false if @insert_key == UNSET_VALUE
+ 
+         if @private_key_path && !@private_key_path.is_a?(Array)
+           @private_key_path = [@private_key_path]
