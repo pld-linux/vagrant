@@ -31,12 +31,12 @@ enable checkpoint only if VAGRANT_CHECKPOINT_ENABLE=1 is set
          # If we disabled state and knowing what alerts we've seen, then
          # disable the signature file.
          signature_file = @data_dir.join("checkpoint_signature")
---- vagrant-1.7.1/vagrant.gemspec~	2015-02-01 20:31:59.000000000 +0200
-+++ vagrant-1.7.1/vagrant.gemspec	2015-02-01 20:37:49.334191244 +0200
+--- vagrant-1.7.2/vagrant.gemspec~	2015-02-01 21:26:08.000000000 +0200
++++ vagrant-1.7.2/vagrant.gemspec	2015-02-01 21:26:30.022042723 +0200
 @@ -20,7 +20,6 @@
    s.add_dependency "erubis", "~> 2.7.0"
    s.add_dependency "i18n", "~> 0.6.0"
-   s.add_dependency "listen", "~> 2.7.11"
+   s.add_dependency "listen", "~> 2.8.0"
 -  s.add_dependency "hashicorp-checkpoint", "~> 0.1.1"
    s.add_dependency "log4r", "~> 1.1.9", "< 1.1.11"
    s.add_dependency "net-ssh", ">= 2.6.6", "< 2.10.0"
