@@ -47,6 +47,7 @@ Requires:	ruby-net-ssh >= 2.6.6
 Requires:	ruby-rubygems
 Suggests:	VirtualBox-gui
 Suggests:	rdesktop
+Suggests:	rsync
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
