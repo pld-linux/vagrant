@@ -9,7 +9,6 @@ Group:		Applications/Emulators
 Source0:	https://github.com/mitchellh/vagrant/archive/v%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	556b5e5594a327d46b63c4d8024db187
 Source1:	%{name}.sh
-Patch0:		source_root.patch
 Patch1:		rubygems.patch
 Patch2:		no-warning.patch
 Patch3:		Vagrantfile.patch
@@ -118,7 +117,6 @@ Ruby documentation for %{gem_name}
 
 %prep
 %setup -q
-#%patch0 -p1
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
