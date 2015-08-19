@@ -1,0 +1,39 @@
+--- vagrant-1.7.4/plugins/provisioners/chef/plugin.rb~	2015-07-17 22:38:51.000000000 +0300
++++ vagrant-1.7.4/plugins/provisioners/chef/plugin.rb	2015-08-19 17:03:47.474659244 +0300
+@@ -78,6 +78,11 @@
+         Cap::OmniOS::ChefInstalled
+       end
+ 
++      guest_capability(:pld, :chef_installed) do
++        require_relative "cap/pld/chef_installed"
++        Cap::OmniOS::ChefInstalled
++      end
++
+       guest_capability(:omnios, :chef_install) do
+         require_relative "cap/omnios/chef_install"
+         Cap::OmniOS::ChefInstall
+--- /dev/null	2015-05-25 21:49:42.000000000 +0300
++++ vagrant-1.7.4/plugins/provisioners/chef/cap/pld/chef_installed.rb	2015-08-19 17:02:22.571070868 +0300
+@@ -0,0 +1,22 @@
++module VagrantPlugins
++  module Chef
++    module Cap
++      module PLD
++        module ChefInstalled 
++          # Check if Chef is installed at the given version.
++          # @return [true, false]
++          def self.chef_installed(machine, version)
++            knife = "/usr/bin/knife"
++            command = "test -x #{knife}"
++            
++            if version != :latest
++              command << "&& #{knife} --version | grep 'Chef: #{version}'"
++            end
++
++            machine.communicate.test(command, sudo: true)         
++          end
++        end
++      end
++    end
++  end
++end
