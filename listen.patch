@@ -1,4 +1,4 @@
-no explanation why the bump:
+no explanation why the 2.7.11->2.8 bump:
 https://github.com/mitchellh/vagrant/commit/025736c2823b1c4147c67af8c874496b37effa57
 
 and listen 2.8 seems to have issues with sass:
@@ -6,13 +6,13 @@ https://github.com/sass/sass/pull/1527
 
 see:
 https://github.com/guard/listen/releases/tag/v2.8.1
---- vagrant-1.7.2/vagrant.gemspec~	2015-02-01 21:29:55.000000000 +0200
-+++ vagrant-1.7.2/vagrant.gemspec	2015-02-01 21:50:06.455356315 +0200
+--- vagrant-1.7.3/vagrant.gemspec~	2015-08-19 15:50:06.000000000 +0300
++++ vagrant-1.7.3/vagrant.gemspec	2015-08-19 15:50:29.068750880 +0300
 @@ -19,7 +19,7 @@
    s.add_dependency "childprocess", "~> 0.5.0"
    s.add_dependency "erubis", "~> 2.7.0"
-   s.add_dependency "i18n", "~> 0.6.0"
--  s.add_dependency "listen", "~> 2.8.0"
+   s.add_dependency "i18n", ">= 0.6.0", "<= 0.8.0"
+-  s.add_dependency "listen", "~> 3.0.2"
 +  s.add_dependency "listen", "~> 2.7.11"
    s.add_dependency "log4r", "~> 1.1.9", "< 1.1.11"
    s.add_dependency "net-ssh", ">= 2.6.6", "< 2.10.0"
