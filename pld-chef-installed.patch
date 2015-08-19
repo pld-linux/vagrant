@@ -1,6 +1,16 @@
---- vagrant-1.7.4/plugins/provisioners/chef/plugin.rb~	2015-07-17 22:38:51.000000000 +0300
-+++ vagrant-1.7.4/plugins/provisioners/chef/plugin.rb	2015-08-19 17:03:47.474659244 +0300
-@@ -78,6 +78,11 @@
+--- vagrant-1.7.4/plugins/provisioners/chef/plugin.rb	2015-08-19 17:03:47.474659244 +0300
++++ vagrant-1.7.4/plugins/provisioners/chef/plugin.rb	2015-08-19 17:28:22.723434523 +0300
+@@ -73,11 +73,21 @@
+         Cap::Redhat::ChefInstall
+       end
+ 
++      guest_capability(:pld, :chef_install) do
++        require_relative "cap/pld/chef_install"
++        Cap::PLD::ChefInstall
++      end
++
+       guest_capability(:omnios, :chef_installed) do
+         require_relative "cap/omnios/chef_installed"
          Cap::OmniOS::ChefInstalled
        end
  
@@ -31,6 +41,27 @@
 +            end
 +
 +            machine.communicate.test(command, sudo: true)
++          end
++        end
++      end
++    end
++  end
++end
+--- /dev/null	2015-05-25 21:49:42.000000000 +0300
++++ vagrant-1.7.4/plugins/provisioners/chef/cap/pld/chef_install.rb	2015-08-19 17:27:55.925638979 +0300
+@@ -0,0 +1,18 @@
++require_relative "../../omnibus"
++
++module VagrantPlugins
++  module Chef
++    module Cap
++      module PLD
++        module ChefInstall
++          def self.chef_install(machine, version, prerelease, download_path)
++            machine.communicate.sudo("poldek --up && poldek -u chef --noask")
++
++            command = Omnibus.build_command(version, prerelease, download_path)
++            machine.communicate.sudo(command)
 +          end
 +        end
 +      end
