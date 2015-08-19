@@ -1,4 +1,4 @@
-disable insert_key=trye by default
+disable insert_key=true by default
 
 https://github.com/mitchellh/vagrant/issues/2608
 
