@@ -1,0 +1,28 @@
+--- /dev/null	2015-05-25 21:49:42.000000000 +0300
++++ vagrant-1.7.4/plugins/guests/pld/cap/flavor.rb	2015-08-21 12:37:06.511699482 +0300
+@@ -0,0 +1,11 @@
++module VagrantPlugins
++  module GuestPld
++    module Cap
++      class Flavor
++        def self.flavor(machine)
++          return :pld
++        end
++      end
++    end
++  end
++end
+--- vagrant-1.7.4/plugins/guests/pld/plugin.rb~	2015-07-17 22:38:51.000000000 +0300
++++ vagrant-1.7.4/plugins/guests/pld/plugin.rb	2015-08-21 12:39:33.651261462 +0300
+@@ -20,6 +20,11 @@
+         require_relative "cap/network_scripts_dir"
+         Cap::NetworkScriptsDir
+       end
++
++      guest_capability("pld", "flavor") do
++        require_relative "cap/flavor"
++        Cap::Flavor
++      end
+     end
+   end
+ end
