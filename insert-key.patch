@@ -2,6 +2,17 @@ disable insert_key=true by default
 
 https://github.com/mitchellh/vagrant/issues/2608
 
+
+NOTE: this can be done globally for your own account as well:
+
+  @TomyLobo:
+
+  Not exactly true, you can also put this in a ~/.vagrant.d/Vagrantfile to apply it to all machines on your desktop.
+
+  config.ssh.insert_key = false
+
+https://github.com/mitchellh/vagrant/pull/4707#issuecomment-132910396
+
 --- vagrant-1.7.1/plugins/kernel_v2/config/ssh_connect.rb~	2014-12-12 11:36:39.000000000 +0200
 +++ vagrant-1.7.1/plugins/kernel_v2/config/ssh_connect.rb	2015-02-01 20:47:27.907465716 +0200
 @@ -23,7 +23,7 @@
