@@ -3,7 +3,7 @@
 Summary:	Provisioning and deployment of virtual instances
 Name:		vagrant
 Version:	1.7.4
-Release:	1
+Release:	2
 License:	MIT
 Group:		Applications/Emulators
 Source0:	https://github.com/mitchellh/vagrant/archive/v%{version}/%{name}-%{version}.tar.gz
@@ -30,7 +30,6 @@ BuildRequires:	ruby-mocha
 BuildRequires:	ruby-rake
 BuildRequires:	ruby-rspec >= 2.14.0
 %endif
-Requires:	VirtualBox
 Requires:	bsdtar
 Requires:	curl
 Requires:	ruby-bundler >= 1.5.2
@@ -45,6 +44,7 @@ Requires:	ruby-net-scp >= 1.1.0
 Requires:	ruby-net-ssh < 2.8.0
 Requires:	ruby-net-ssh >= 2.6.6
 Requires:	ruby-rubygems
+Suggests:	VirtualBox
 Suggests:	VirtualBox-gui
 Suggests:	rdesktop
 Suggests:	rsync
