@@ -1,3 +1,7 @@
+upstream rejects this
+
+https://github.com/mitchellh/vagrant/pull/6173
+
 --- vagrant-1.7.4/plugins/provisioners/chef/plugin.rb	2015-08-19 17:03:47.474659244 +0300
 +++ vagrant-1.7.4/plugins/provisioners/chef/plugin.rb	2015-08-19 17:28:22.723434523 +0300
 @@ -73,11 +73,21 @@
