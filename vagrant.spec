@@ -32,17 +32,7 @@ BuildRequires:	ruby-rspec >= 2.14.0
 %endif
 Requires:	bsdtar
 Requires:	curl
-Requires:	ruby-bundler >= 1.5.2
-Requires:	ruby-childprocess >= 0.5.0
-Requires:	ruby-erubis >= 2.7.0
-Requires:	ruby-i18n >= 0.6.0
 Requires:	ruby-json
-Requires:	ruby-listen >= 2.7.11
-Requires:	ruby-log4r < 1.1.11
-Requires:	ruby-log4r >= 1.1.9
-Requires:	ruby-net-scp >= 1.1.0
-Requires:	ruby-net-ssh < 2.9.0
-Requires:	ruby-net-ssh >= 2.6.6
 Requires:	ruby-rubygems
 Suggests:	VirtualBox
 Suggests:	VirtualBox-gui
