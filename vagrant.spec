@@ -3,7 +3,7 @@
 Summary:	Provisioning and deployment of virtual instances
 Name:		vagrant
 Version:	1.7.4
-Release:	4
+Release:	5
 License:	MIT
 Group:		Applications/Emulators
 Source0:	https://github.com/mitchellh/vagrant/archive/v%{version}/%{name}-%{version}.tar.gz
@@ -41,7 +41,7 @@ Requires:	ruby-listen >= 2.7.11
 Requires:	ruby-log4r < 1.1.11
 Requires:	ruby-log4r >= 1.1.9
 Requires:	ruby-net-scp >= 1.1.0
-Requires:	ruby-net-ssh < 2.8.0
+Requires:	ruby-net-ssh < 2.9.0
 Requires:	ruby-net-ssh >= 2.6.6
 Requires:	ruby-rubygems
 Suggests:	VirtualBox
