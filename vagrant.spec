@@ -3,7 +3,7 @@
 Summary:	Provisioning and deployment of virtual instances
 Name:		vagrant
 Version:	1.7.4
-Release:	5
+Release:	6
 License:	MIT
 Group:		Applications/Emulators
 Source0:	https://github.com/mitchellh/vagrant/archive/v%{version}/%{name}-%{version}.tar.gz
@@ -79,10 +79,10 @@ Requires(pre):	/usr/bin/getgid
 Requires(pre):	/usr/sbin/groupadd
 Requires(pre):	/usr/sbin/useradd
 Requires:	/etc/pld-release
-Requires:	kernel(vboxsf)
 Requires:	openssh-server
 Requires:	sudo >= 1.7.4p3-2
 Requires:	which
+Suggests:	kernel(vboxsf)
 Provides:	group(vagrant)
 Provides:	user(vagrant)
 
