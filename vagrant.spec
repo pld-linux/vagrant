@@ -2,23 +2,21 @@
 # - release notes: https://github.com/mitchellh/vagrant/blob/master/CHANGELOG.md
 Summary:	Provisioning and deployment of virtual instances
 Name:		vagrant
-Version:	1.7.4
-Release:	6
+Version:	2.1.2
+Release:	1
 License:	MIT
 Group:		Applications/Emulators
 Source0:	https://github.com/mitchellh/vagrant/archive/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	556b5e5594a327d46b63c4d8024db187
+# Source0-md5:	20b7a4a7b3e1bb4a57c8cac65a547ce7
 Source1:	%{name}.sh
 Patch1:		rubygems.patch
 Patch2:		no-warning.patch
 Patch3:		Vagrantfile.patch
 Patch4:		version.patch
 Patch5:		no-gems.patch
-Patch6:		checkpoint.patch
 Patch7:		insert-key.patch
 Patch8:		listen.patch
 Patch9:		pld-chef-installed.patch
-Patch10:	pld-networking.patch
 URL:		http://www.vagrantup.com/
 BuildRequires:	bash
 BuildRequires:	rpm-rubyprov
@@ -113,11 +111,9 @@ Ruby documentation for %{gem_name}
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
-%patch6 -p1
 %patch7 -p1
 %patch8 -p1
 %patch9 -p1
-%patch10 -p1
 
 VERSION=$(cat version.txt)
 sed -i -e "s/__VERSION__/$VERSION/" lib/vagrant/version.rb

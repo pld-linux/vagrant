@@ -4,7 +4,7 @@ https://github.com/mitchellh/vagrant/pull/6173
 
 --- vagrant-1.7.4/plugins/provisioners/chef/plugin.rb	2015-08-19 17:03:47.474659244 +0300
 +++ vagrant-1.7.4/plugins/provisioners/chef/plugin.rb	2015-08-19 17:28:22.723434523 +0300
-@@ -73,11 +73,21 @@
+@@ -73,6 +73,16 @@
          Cap::Redhat::ChefInstall
        end
  
@@ -13,19 +13,14 @@ https://github.com/mitchellh/vagrant/pull/6173
 +        Cap::PLD::ChefInstall
 +      end
 +
-       guest_capability(:omnios, :chef_installed) do
-         require_relative "cap/omnios/chef_installed"
-         Cap::OmniOS::ChefInstalled
-       end
- 
 +      guest_capability(:pld, :chef_installed) do
 +        require_relative "cap/pld/chef_installed"
 +        Cap::PLD::ChefInstalled
 +      end
 +
-       guest_capability(:omnios, :chef_install) do
-         require_relative "cap/omnios/chef_install"
-         Cap::OmniOS::ChefInstall
+       guest_capability(:suse, :chef_install) do
+         require_relative "cap/suse/chef_install"
+         Cap::Suse::ChefInstall
 --- /dev/null	2015-05-25 21:49:42.000000000 +0300
 +++ vagrant-1.7.4/plugins/provisioners/chef/cap/pld/chef_installed.rb	2015-08-19 17:02:22.571070868 +0300
 @@ -0,0 +1,22 @@
