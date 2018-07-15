@@ -3,7 +3,7 @@
 Summary:	Provisioning and deployment of virtual instances
 Name:		vagrant
 Version:	2.1.2
-Release:	1
+Release:	2
 License:	MIT
 Group:		Applications/Emulators
 Source0:	https://github.com/mitchellh/vagrant/archive/v%{version}/%{name}-%{version}.tar.gz
@@ -17,6 +17,7 @@ Patch5:		no-gems.patch
 Patch7:		insert-key.patch
 Patch8:		listen.patch
 Patch9:		pld-chef-installed.patch
+Patch10:	net-ssh.patch
 URL:		http://www.vagrantup.com/
 BuildRequires:	bash
 BuildRequires:	rpm-rubyprov
@@ -114,6 +115,7 @@ Ruby documentation for %{gem_name}
 %patch7 -p1
 %patch8 -p1
 %patch9 -p1
+%patch10 -p1
 
 VERSION=$(cat version.txt)
 sed -i -e "s/__VERSION__/$VERSION/" lib/vagrant/version.rb
