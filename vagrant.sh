@@ -22,16 +22,12 @@ unset RUBYLIB
 
 # Find the Vagrant executable
 for needle in "${GEM_PATH}/gems/vagrant-"*; do
-	if [ -f "${needle}/lib/vagrant/pre-rubygems.rb" ]; then
+	if [ -f "${needle}/lib/vagrant/version.rb" ]; then
 		VAGRANT_GEM_PATH="${needle}"
 	fi
 done
 
 VAGRANT_EXECUTABLE="${VAGRANT_GEM_PATH}/bin/vagrant"
-VAGRANT_LAUNCHER="${VAGRANT_GEM_PATH}/lib/vagrant/pre-rubygems.rb"
-
-# Export the VAGRANT_EXECUTABLE so that pre-rubygems can optimize a bit
-export VAGRANT_EXECUTABLE
 
 # Call the actual Vagrant bin with our arguments
-exec "${RUBY_EXECUTABLE}" "${VAGRANT_LAUNCHER}" "$@"
+exec "$RUBY_EXECUTABLE" -r rubygems "$VAGRANT_EXECUTABLE" "$@"
